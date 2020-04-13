@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Care_Refrigerator</string>
-    <string name="test1">박스 액티비티</string>
+    <string name="test1">박스 액티비티</string> // 없애도 됨
     <string name="option_test">Option Test</string>
-    <string name="push_test">물품 넣기 테스트</string>
+    <string name="push_test">물품 넣기 테스트</string> // 여기까지
     <string name="boxBtn">냉장고</string>
     <string name="boardBtn">추천 메뉴</string>
     <string name="homeBtn">홈</string>
