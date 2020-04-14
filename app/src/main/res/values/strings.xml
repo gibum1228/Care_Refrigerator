@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Care_Refrigerator</string>
+    <string name="boxBtn">냉장고</string>
+    <string name="boardBtn">추천 메뉴</string>
+    <string name="homeBtn">홈</string>
+    <string name="pushBtn">물품 넣기</string>
+    <string name="optionBtn">설정</string>
+    <string name="objectName">상품명</string>
+    <string name="pushDB">PUSH</string>
+    <string name="dateInput">유통기한 입력</string>
+    <string name="sortBtn">정렬</string>
+</resources>
