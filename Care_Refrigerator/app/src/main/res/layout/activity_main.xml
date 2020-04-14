@@ -37,15 +37,6 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/homeBtn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/homeBtn"
-            android:textSize="20sp" />
-
-        <Button
             android:id="@+id/pushBtn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -63,4 +54,14 @@
             android:text="@string/optionBtn"
             android:textSize="20sp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/btnLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
