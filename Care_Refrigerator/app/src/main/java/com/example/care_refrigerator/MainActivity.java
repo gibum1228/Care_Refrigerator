@@ -4,8 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,7 +17,9 @@ public class MainActivity extends AppCompatActivity {
     Button boardBtn;
     Button boxBtn;
     Button pushBtn;
+    TextView dateText;
 
+    // 액티비티 전환
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         pushBtn = (Button)findViewById(R.id.pushBtn);
         boxBtn = (Button)findViewById(R.id.boxBtn);
         optionBtn = (Button)findViewById(R.id.optionBtn);
+        dateText = (TextView)findViewById(R.id.textView4);
 
         optionBtn.setOnClickListener(new View.OnClickListener(){
            @Override
@@ -56,6 +63,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        dateText.setText(getTime);
+
     }
 
+    // 시간 입력받기
+    static long nowTime = System.currentTimeMillis();
+    Date nowDate = new Date(nowTime);
+
+    SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    String getTime = simpleDate.format(nowDate);
 }
