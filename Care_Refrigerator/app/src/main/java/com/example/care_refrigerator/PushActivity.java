@@ -15,6 +15,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class PushActivity extends AppCompatActivity {
@@ -25,11 +29,10 @@ public class PushActivity extends AppCompatActivity {
     EditText objectName;
     Spinner spinner;
     GregorianCalendar today = new GregorianCalendar();
-    private TextView dateText;
     private DatePickerDialog.OnDateSetListener callbackMethod;
 
-    ArrayAdapter<String> adapter;
     String s = "";
+    String spinS = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +55,13 @@ public class PushActivity extends AppCompatActivity {
         });
 
         // 스피너(콤보 박스)
-        String[] items = {"육류", "채소류", "유제품", "냉동식품", "기타"};
+        String[] items = {"", "육류", "채소류", "유제품", "냉동식품", "기타"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_text_coustom, items);
         spinner.setAdapter(adapter);
         spinner.setSelection(0);
 
         // 유통 기한 입력 메소드
         this.InitializeView();
-        this.InitializeListener();
-    }
-
-    private void InitializeListener() {
-        dateText = (TextView)findViewById(R.id.dateText);
     }
 
     // 날짜 정보 전달
@@ -71,35 +69,41 @@ public class PushActivity extends AppCompatActivity {
         callbackMethod = new DatePickerDialog.OnDateSetListener(){
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-                monthOfYear = monthOfYear + 1;
-                dateText.setText(year + "년 " + monthOfYear + "월 " + dayOfMonth + "일" );
+                monthOfYear++;
+
                 s = year + "년 " + monthOfYear + "월 " + dayOfMonth + "일";
+                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
             }
         };
     }
 
-    // 버튼 클릭시 이벤트 생성
+    // 유통기한 버튼 클릭시 달력 보이기
     public void OnClickHandler(View view){
         DatePickerDialog dialog = new DatePickerDialog(this, callbackMethod, today.get(today.YEAR), today.get(today.MONTH), today.get(today.DAY_OF_MONTH));
 
         dialog.show();
     }
 
+    // Push버튼 눌러서 BoxActivity에 물품 정보 전송
     public void OnClickPush(View view){
-        String spinS = (String)spinner.getSelectedItem();
-
+        spinS = (String)spinner.getSelectedItem();
         ObjectKind objKind = new ObjectKind(spinS, objectName.getText().toString(), s);
 
-        Toast.makeText(this, objKind.toString(), Toast.LENGTH_SHORT).show();
+        if(objKind.getCategory().compareTo("") == 0 || objKind.getName().compareTo("") == 0 || objKind.getDate().compareTo("") == 0){
+            if(objKind.getCategory().compareTo("") == 0){
+                Toast.makeText(this, "분류를 선택해주세요.", Toast.LENGTH_SHORT).show();
+            }else if(objKind.getName().compareTo("") == 0 ){
+                Toast.makeText(this, "제품명을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "유통기한을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Intent intent = new Intent(PushActivity.this, BoxActivity.class);
+            intent.putExtra("class", objKind);
 
-        Intent intent = new Intent(this, BoxActivity.class);
-        intent.putExtra("category", "분류");
-        intent.putExtra("class", objKind);
-
-        // startActivity(intent);
-        // dateText.setText(objKind.toString());
+            startActivity(intent);
+        }
     }
-
 }
 
 class ObjectKind implements Serializable { // 물품 정보 클래스
@@ -110,6 +114,7 @@ class ObjectKind implements Serializable { // 물품 정보 클래스
     private String date = "";
 
     // 생성자
+    public ObjectKind(){}
     public ObjectKind(String c, String n, String d){
         this.category = c;
         this.name = n;
