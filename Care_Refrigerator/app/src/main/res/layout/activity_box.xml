@@ -18,10 +18,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <EditText
+            android:id="@+id/pushEdit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="2"/>
 
         <Button
             android:id="@+id/homeBtn"
@@ -51,9 +57,10 @@
             android:layout_marginBottom="12sp"
             android:layout_marginLeft="60sp"
             android:layout_marginRight="60sp"
-            android:layout_weight="7">
+            android:layout_weight="5">
 
             <Spinner
+                android:id="@+id/sortSpin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
@@ -62,10 +69,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/sortBtn"
-                android:onClick="OnClickTest"/>
+                android:text="@string/sortBtn"/>
 
         </LinearLayout>
+
 
         <ScrollView
             android:id="@+id/scrollView"
@@ -75,22 +82,46 @@
             android:layout_marginBottom="50sp"
             android:layout_marginLeft="50sp"
             android:layout_marginRight="50sp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:fillViewport="true">
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </ListView>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:paddingBottom="20sp"
+            android:paddingTop="20sp"
+            android:paddingLeft="20sp"
+            android:paddingRight="20sp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <ListView
-                    android:id="@+id/listView"
+                <Button
+                    android:id="@+id/addBtn"
+                    android:onClick="OnClickAD"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
 
-                </ListView>
+                <Button
+                    android:id="@+id/delBtn"
+                    android:onClick="OnClickAD"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
             </LinearLayout>
-        </ScrollView>
+        </LinearLayout>
 
     </LinearLayout>
 
