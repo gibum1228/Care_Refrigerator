@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         boardBtn = (Button)findViewById(R.id.boardBtn);
         pushBtn = (Button)findViewById(R.id.pushBtn);
         boxBtn = (Button)findViewById(R.id.boxBtn);
@@ -69,3 +70,4 @@ public class MainActivity extends AppCompatActivity {
     static SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     static String getTime = simpleDate.format(nowDate);
 }
+
