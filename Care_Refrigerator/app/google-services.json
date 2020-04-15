@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "268714944905",
+    "firebase_url": "https://care-refrigerator.firebaseio.com",
+    "project_id": "care-refrigerator",
+    "storage_bucket": "care-refrigerator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268714944905:android:cad19afb336fe1e6c19958",
+        "android_client_info": {
+          "package_name": "com.example.care_refrigerator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "268714944905-7epua6n1jr6sv343nun136st75imlbv2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.care_refrigerator",
+            "certificate_hash": "8c26f0e067adde9b057d150fbf01b91488cf760d"
+          }
+        },
+        {
+          "client_id": "268714944905-hoa9eu3olu2pb4gd914magbuuhdjaq93.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.care_refrigerator",
+            "certificate_hash": "d789c3510eac0c0442582262d7ffb81a1e1e8235"
+          }
+        },
+        {
+          "client_id": "268714944905-9a533e83gtabm761986igfevauemlhpd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJmmGvZlPzrBjncMs0WXC6H81Tzrc3ckA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "268714944905-9a533e83gtabm761986igfevauemlhpd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
