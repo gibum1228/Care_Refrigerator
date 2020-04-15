@@ -7,11 +7,14 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 public class PushActivity extends AppCompatActivity {
@@ -19,11 +22,14 @@ public class PushActivity extends AppCompatActivity {
     // 생성
     Button homeBtn;
     Button dateInputBtn;
+    EditText objectName;
     Spinner spinner;
     GregorianCalendar today = new GregorianCalendar();
-
     private TextView dateText;
     private DatePickerDialog.OnDateSetListener callbackMethod;
+
+    ArrayAdapter<String> adapter;
+    String s = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,7 @@ public class PushActivity extends AppCompatActivity {
         homeBtn = (Button) findViewById(R.id.homeBtn);
         dateInputBtn = (Button)findViewById(R.id.dateInputBtn);
         spinner = (Spinner) findViewById(R.id.categoryBox);
+        objectName = (EditText)findViewById(R.id.objectName);
 
         // 액티비티 전환
         homeBtn.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +73,7 @@ public class PushActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
                 monthOfYear = monthOfYear + 1;
                 dateText.setText(year + "년 " + monthOfYear + "월 " + dayOfMonth + "일" );
+                s = year + "년 " + monthOfYear + "월 " + dayOfMonth + "일";
             }
         };
     }
@@ -77,19 +85,32 @@ public class PushActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    public void OnClickPush(View view){
+        String spinS = (String)spinner.getSelectedItem();
+
+        ObjectKind objKind = new ObjectKind(spinS, objectName.getText().toString(), s);
+
+        Toast.makeText(this, objKind.toString(), Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, BoxActivity.class);
+        intent.putExtra("category", "분류");
+        intent.putExtra("class", objKind);
+
+        // startActivity(intent);
+        // dateText.setText(objKind.toString());
+    }
+
 }
 
-class objectKind{
+class ObjectKind implements Serializable { // 물품 정보 클래스
+
     // 필드
-    private String category = "NULL";
-    private String name = "NULL";
-    private String date = "NULL";
+    private String category = "";
+    private String name = "";
+    private String date = "";
 
     // 생성자
-    public objectKind(){
-
-    }
-    public objectKind(String c, String n, String d){
+    public ObjectKind(String c, String n, String d){
         this.category = c;
         this.name = n;
         this.date = d;
@@ -106,4 +127,10 @@ class objectKind{
         return this.date;
     }
 
+    // print
+    @Override
+    public String toString(){
+        return "카테고리: " + this.category +" \n제품명: " + this.name +" \n유통기한: " + this.date;
+        // return String.format("카테고리: %s" + " \n제품명: %s" + " \n유통기한: %s", this.category, this.name, this.date);
+    }
 }
