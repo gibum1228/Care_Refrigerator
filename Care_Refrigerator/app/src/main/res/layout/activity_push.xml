@@ -99,6 +99,7 @@
             android:layout_width="100sp"
             android:layout_height="100sp"
             android:layout_marginBottom="50sp"
+            android:onClick="OnClickPush"
             android:gravity="center"
             android:text="@string/pushDB"/>
         <TextView

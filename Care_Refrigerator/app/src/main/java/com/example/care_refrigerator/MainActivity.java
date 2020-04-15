@@ -7,9 +7,6 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class MainActivity extends AppCompatActivity {
 
     Button optionBtn;
@@ -62,10 +59,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // 시간 입력받기
-    static long nowTime = System.currentTimeMillis();
-    static Date nowDate = new Date(nowTime);
-
-    static SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    static String getTime = simpleDate.format(nowDate);
 }
