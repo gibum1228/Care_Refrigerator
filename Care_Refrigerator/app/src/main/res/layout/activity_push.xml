@@ -27,6 +27,7 @@
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:gravity="center"
+            android:onClick="OnClick"
             android:text="@string/homeBtn"
             android:textSize="20sp" />
     </LinearLayout>
@@ -64,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:onClick="OnClickHandler"
+            android:onClick="OnClick"
             android:text="@string/dateInput"
             android:layout_marginBottom="20sp"
             android:layout_marginTop="20sp"/>
@@ -84,11 +85,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"/>
         <Button
-            android:id="@+id/pushDB"
+            android:id="@+id/pushDBBtn"
             android:layout_width="100sp"
             android:layout_height="100sp"
             android:layout_marginBottom="50sp"
-            android:onClick="OnClickPush"
+            android:onClick="OnClick"
             android:gravity="center"
             android:text="@string/pushDB"/>
         <TextView

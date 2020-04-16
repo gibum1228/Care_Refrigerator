@@ -2,10 +2,12 @@ package com.example.care_refrigerator;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,23 +28,14 @@ public class BoxActivity extends AppCompatActivity {
     Spinner sortSpin;
 
     ArrayList<String> itemList;
+    static ArrayList<String> arrayData = new ArrayList<String>();
     ArrayAdapter<String> adapter;
-    static ObjectKind item = new ObjectKind();
+    ArrayAdapter<String> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box);
-
-        // PushActivity에서 정보 전달 받기
-        Intent intent = getIntent();
-        // 정보 전달 받았으면 아이템 추가
-        if(intent.hasExtra("class")){
-
-            item = (ObjectKind)intent.getSerializableExtra("class");
-
-            Toast.makeText(this, "데이터 전송 받음", Toast.LENGTH_SHORT).show();
-        }
 
         // 생성
         homeBtn = (Button)findViewById(R.id.homeBtn);
@@ -69,7 +62,7 @@ public class BoxActivity extends AppCompatActivity {
         });
 
         // 스피너 정렬 기준
-        String[] sortSpinner = {"-", "분류별", "짧은 순", "가나다"};
+        String[] sortSpinner = {"", "분류별", "짧은 순", "가나다", "수량"};
         ArrayAdapter<String> spinAdapter = new ArrayAdapter<>(this, R.layout.spinner_text_coustom, sortSpinner);
         sortSpin.setAdapter(spinAdapter);
         sortSpin.setSelection(0);
@@ -96,9 +89,18 @@ public class BoxActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE); // 여러 항목을 선택할 수 있는 설정
 
-        itemList.add(item.getName());
         adapter.notifyDataSetChanged();
     }
+
+//    private AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener(){
+//       @Override
+//        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, String userName){
+//           final String[]  nowData = arrayData.get(position).split("\\s+");
+//
+//
+//           return false;
+//        }
+//    };
 
     // ADD, DEL 버튼 클릭 시 실행되는 메소드
     public void OnClickAD(View view){
@@ -115,17 +117,7 @@ public class BoxActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged(); // 리스트 목록 갱신
                 }
                 break;
-            case R.id.delBtn: // DEL
-                // 싱글 모드일 때 삭제 버튼
-//                int pos = listView.getCheckedItemPosition(); // 현재 선택된 항목의 위치값 얻기
-//
-//                if(pos != ListView.INVALID_POSITION){ // 선택된 항목이 있으면
-//                    itemList.remove(pos);
-//
-//                    listView.clearChoices(); // 리스트뷰 선택 해제
-//                    adapter.notifyDataSetChanged(); // 리스트 목록 갱신
-//                }
-//                break;
+            case R.id.delBtn:
                 SparseBooleanArray sbArray = listView.getCheckedItemPositions(); // 선택된 아이템의 위치를 알려주는 배열
                 // ex) {0=true, 3=true, 4=false, 6=true}
 
