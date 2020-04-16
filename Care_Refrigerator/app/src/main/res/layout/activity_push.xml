@@ -36,39 +36,40 @@
         android:id="@+id/pushLayout"
         android:layout_width="match_parent"
         android:layout_height="120sp"
+        android:layout_marginTop="25sp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/pushBtnLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upLayout"
-        android:layout_marginTop="25sp">
+        app:layout_constraintTop_toBottomOf="@+id/upLayout">
 
         <Spinner
             android:id="@+id/categoryBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="4"
+            android:layout_marginTop="20sp"
             android:layout_marginBottom="20sp"
-            android:layout_marginTop="20sp"/>
+            android:layout_weight="4" />
 
         <EditText
             android:id="@+id/nameEdit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20sp"
             android:layout_weight="3"
             android:hint="@string/objectName"
-            android:paddingLeft="15sp"
-            android:layout_marginBottom="20sp"
-            android:layout_marginTop="20sp" />
+            android:paddingLeft="15sp" />
 
         <Button
             android:id="@+id/dateEndBtn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20sp"
             android:layout_weight="4"
             android:onClick="OnClick"
-            android:text="@string/dateInput"
-            android:layout_marginBottom="20sp"
-            android:layout_marginTop="20sp"/>
+            android:text="@string/dateInput" />
 
     </LinearLayout>
 
