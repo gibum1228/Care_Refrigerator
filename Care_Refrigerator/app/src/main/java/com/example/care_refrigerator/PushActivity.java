@@ -60,7 +60,7 @@ public class PushActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
         spinner.setSelection(0);
 
-        // 유통 기한 입력 메소드
+        // 유통 기한 달력 선택 메소드
         this.InitializeView();
     }
 

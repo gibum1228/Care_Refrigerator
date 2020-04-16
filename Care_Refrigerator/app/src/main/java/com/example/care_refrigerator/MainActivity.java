@@ -7,6 +7,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends AppCompatActivity {
 
     Button optionBtn;
@@ -57,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        myRef.setValue("Hello, World!");
     }
+
+    // Write a message to the database
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("test");
+
+
 
 }
