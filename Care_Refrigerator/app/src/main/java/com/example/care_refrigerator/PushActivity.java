@@ -110,7 +110,7 @@ public class PushActivity extends AppCompatActivity {
         mPostReference = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        ObjectData objData = new ObjectData(spinS, objectName.getText().toString(), s, 1L);
+        ObjectData objData = new ObjectData(spinS, nameEdit.getText().toString(), s, 1L);
         postValues = objData.toMap();
         childUpdates.put("/ObjectData/" + "objTest", postValues);
         mPostReference.updateChildren(childUpdates);
