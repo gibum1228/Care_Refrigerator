@@ -10,6 +10,12 @@
     <string name="dateInput">유통기한 입력</string>
     <string name="loginid">로그인 아이디</string>
     <string name="input_loginid">로그인 아이디를 입력하세요.</string>
+    <string name="dateInput">유통기한</string>
+    <string name="loginid">로그인 이메일</string>
+    <string name="sortBtn">정렬</string>
+    <string name="addBtn">추가</string>
+    <string name="delBtn">삭제</string>
+    <string name="input_loginid">로그인 이메일을 입력하세요.</string>
     <string name="login_log">당신을 위한 냉장고!</string>
     <string name="password">비밀번호 입력</string>
     <string name="input_password">비밀번호를 입력하세요.</string>
@@ -17,4 +23,10 @@
     <string name="move_login">회원가입</string>
     <string name="DrakmodeOn">다크모드 켜기</string>
     <string name="DarkmodeOff">다크모드 끄기</string>
+    <string name="input_password2">비밀번호를 다시 입력하세요.</string>
+    <string name="passwordok">비밀번호 확인</string>
+    <string name="mant">당신을 위한 유통관리 앱 냉장고 입니다!</string>
+    <string name="loginBtn2">LOGOUT</string>
+    <string name="welcome">어서오세요!</string>
+    <string name="loginBtn1">LOGIN</string>
 </resources>
