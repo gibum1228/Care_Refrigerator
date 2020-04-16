@@ -56,7 +56,8 @@ public class loginonActivity extends AppCompatActivity {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
-                            } else {
+                            }
+                            else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
                                 Toast.makeText(loginonActivity.this,"패스워드나 이메일이 틀립니다.",Toast.LENGTH_SHORT).show();
@@ -64,7 +65,7 @@ public class loginonActivity extends AppCompatActivity {
                         }
                     });
         }
-        private void getCurrentUser (FirebaseUser user){
+        public void getCurrentUser (FirebaseUser user){
             user = FirebaseAuth.getInstance().getCurrentUser();
 
             if (user != null) {
@@ -82,4 +83,8 @@ public class loginonActivity extends AppCompatActivity {
                 String uid = user.getUid();
             }
         }
+    static boolean isEmptyOrWhiteSpace(String s){
+        if(s==null)return true;
+        return s.trim().length()==0;
+    }
 }
