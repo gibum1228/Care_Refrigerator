@@ -73,6 +73,7 @@ public class loginActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(),loginonActivity.class);
                         }else {
                             Log.w(TAG,"SingwithEmail:failure",task.getException());
+
                         }
                     }
                 });
@@ -84,5 +85,4 @@ public class loginActivity extends AppCompatActivity {
         if(s==null)return true;
         return s.trim().length()==0;
     }
-
 }
