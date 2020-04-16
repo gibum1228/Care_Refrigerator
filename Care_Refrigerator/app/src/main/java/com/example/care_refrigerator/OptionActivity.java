@@ -34,7 +34,7 @@ public class OptionActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),loginActivity.class);
+                Intent intent = new Intent(getApplicationContext(),loginonActivity.class);
                 startActivity(intent);
             }
         });
