@@ -47,10 +47,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_marginTop="12sp"
-            android:layout_marginBottom="12sp"
-            android:layout_marginLeft="60sp"
-            android:layout_marginRight="60sp"
+            android:layout_marginTop="30sp"
+            android:layout_marginBottom="30sp"
+            android:layout_marginLeft="70sp"
+            android:layout_marginRight="70sp"
             android:layout_weight="7">
 
             <Spinner
@@ -78,7 +78,8 @@
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="#6C4E4E">
 
             </ListView>
         </ScrollView>

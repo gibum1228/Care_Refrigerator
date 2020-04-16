@@ -14,6 +14,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.ChildEventListener;
@@ -26,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import static com.example.care_refrigerator.PushActivity.pastCount;
+import static com.example.care_refrigerator.PushActivity.userUid;
 
 public class BoxActivity extends AppCompatActivity {
 
@@ -37,8 +39,7 @@ public class BoxActivity extends AppCompatActivity {
     ListView listView;
     ScrollView scrollView;
     Spinner sortSpin;
-    String ID;
-
+    String ID = "";
 
     public static ArrayAdapter<String> arrayAdapter;
     ArrayList<String> arrayData = new ArrayList<String>();
@@ -78,14 +79,15 @@ public class BoxActivity extends AppCompatActivity {
         sortSpin.setAdapter(spinAdapter);
         sortSpin.setSelection(0);
 
-        // 어댑터 생성 및 설정
         initDatabase();
-//        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, itemList);
+
+        // 어댑터 생성 및 설정
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, new ArrayList<String>());
         listView.setAdapter(arrayAdapter);
         listView.setOnItemLongClickListener(longClickListener);
 
         getFirebaseDB();
+
     }
 
     private AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener(){
@@ -101,7 +103,7 @@ public class BoxActivity extends AppCompatActivity {
                     .setPositiveButton("네", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mDatabase.getReference().child("admin").child(ID).setValue(null);
+                            mDatabase.getReference().child(userUid).child(ID).setValue(null);
                             getFirebaseDB();
                             Toast.makeText(BoxActivity.this, "데이터 삭제 완료", Toast.LENGTH_SHORT).show();
                         }
@@ -120,10 +122,10 @@ public class BoxActivity extends AppCompatActivity {
 
     public void getFirebaseDB(){
         // 실시간 업데이트
-        mReference = mDatabase.getReference("admin"); // 변경값을 확인할 child 이름
+        mReference = mDatabase.getReference(userUid + "/"); // 변경값을 확인할 child 이름
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 arrayAdapter.clear();
                 arrayData.clear();
 
@@ -132,7 +134,6 @@ public class BoxActivity extends AppCompatActivity {
                     String[] info = {get.id, get.category, get.name, String.valueOf(get.count), get.dateEnd};
                     String msg = info[0] + " " + info[1] + " " + info[2] + " " + info[3] + " " + info[4];
                     arrayData.add(msg);
-//                    arrayAdapter.add(msg); // 데이터 저장
 
                 }
                 arrayAdapter.addAll(arrayData);

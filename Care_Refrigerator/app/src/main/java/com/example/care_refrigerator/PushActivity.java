@@ -27,33 +27,26 @@ import static com.example.care_refrigerator.BoxActivity.arrayAdapter;
 
 public class PushActivity extends AppCompatActivity {
 
-    public static ArrayList<String> pastCount = new ArrayList<String>();
-
-    FirebaseAuth mAut;
     Button homeBtn;
     Button dateEndBtn;
     Button pushDBBtn;
     EditText nameEdit;
     Spinner spinner;
 
+    public static String userUid = "aaa";
     private DatabaseReference mPostReference;
     GregorianCalendar today = new GregorianCalendar(); // 현재
     private DatePickerDialog.OnDateSetListener callbackMethod;
     String s = ""; // 날짜
     String spinToS = ""; // 분류
-    public static int count;
+    public static ArrayList<String> pastCount = new ArrayList<String>(0);
+    public static int count = 0;
     String ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push);
-
-        try{
-            count = arrayAdapter.getCount() + 1;
-        }catch (NullPointerException e){
-            count = 1;
-        }
 
         // 초기화
         homeBtn = (Button) findViewById(R.id.homeBtn);
@@ -68,6 +61,8 @@ public class PushActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
         spinner.setSelection(0);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        userUid = user.getUid();
     }
 
     // 날짜 정보 전달
@@ -85,27 +80,18 @@ public class PushActivity extends AppCompatActivity {
 
     // 실시간 데이터베이스에 정보 전달
     public void pushFirebaseDB(){
-//        String userEmail = "";
+       // FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        if(user != null){
-//            String userName = user.getDisplayName();
-//            userEmail = user.getEmail();
-//            Uri userPhotoUrl = user.getPhotoUrl();
-//
-//            boolean emailVerified = user.isEmailVerified();
-//
-//            String uid = user.getUid();
-//        }
+       // userUid = user.getUid();
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
         ObjectData objData = new ObjectData(ID ,spinToS, nameEdit.getText().toString(), s, 1L);
         postValues = objData.toMap();
-        childUpdates.put("admin/" + ID, postValues);
+        childUpdates.put(userUid + "/" + ID, postValues);
         mPostReference.updateChildren(childUpdates);
+
     }
 
     // 클릭시 발생 이벤트
@@ -124,12 +110,14 @@ public class PushActivity extends AppCompatActivity {
                         Toast.makeText(this, "제품명을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    if(pastCount.isEmpty()){
+                    if(pastCount.size() < 1){
                         ID = String.valueOf(count);
+                        count++;
                     }else{
-                        ID = pastCount.get(0).toString();
+                        ID = pastCount.get(0);
                         pastCount.remove(0);
                     }
+
                     pushFirebaseDB();
 
                     // 초기화
@@ -144,15 +132,8 @@ public class PushActivity extends AppCompatActivity {
                 dialog.show();
 
                 // 유통 기한 입력 받기
-                callbackMethod = new DatePickerDialog.OnDateSetListener(){
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-                        monthOfYear++;
+               calenderView();
 
-                        s = year + "년 " + monthOfYear + "월 " + dayOfMonth + "일";
-                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-                    }
-                };
                 break;
             case R.id.homeBtn:
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
