@@ -27,8 +27,6 @@ android {
 
 }
 
-apply plugin: 'com.google.gms.google-services'
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.google.firebase:firebase-analytics:17.3.0'
