@@ -1,16 +1,14 @@
 package com.example.care_refrigerator;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -18,19 +16,32 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
+import static com.example.care_refrigerator.PushActivity.pastCount;
+
 public class BoxActivity extends AppCompatActivity {
+
+    private DatabaseReference mReference;
+    private FirebaseDatabase mDatabase;
+    private ChildEventListener mChild;
 
     Button homeBtn;
     ListView listView;
     ScrollView scrollView;
     Spinner sortSpin;
+    String ID;
 
-    ArrayList<String> itemList;
-    static ArrayList<String> arrayData = new ArrayList<String>();
-    ArrayAdapter<String> adapter;
-    ArrayAdapter<String> arrayAdapter;
+
+    public static ArrayAdapter<String> arrayAdapter;
+    ArrayList<String> arrayData = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,70 +78,115 @@ public class BoxActivity extends AppCompatActivity {
         sortSpin.setAdapter(spinAdapter);
         sortSpin.setSelection(0);
 
-        // 리스트뷰 (Sample Item)
-        itemList = new ArrayList<String>();
-        itemList.add("123124123");
-        itemList.add("1111111111");
-        itemList.add("555544433");
-        itemList.add("555544433");
-        itemList.add("555544433");
-        itemList.add("555544433");
-        itemList.add("555544433");
-        itemList.add("555544433");
-        itemList.add("555544433");
-        itemList.add("555544433");
-        itemList.add("555544433");
-        itemList.add("555544433");
-        itemList.add("555544433");
-        itemList.add("555544433");
-
         // 어댑터 생성 및 설정
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, itemList);
-        listView.setAdapter(adapter);
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE); // 여러 항목을 선택할 수 있는 설정
+        initDatabase();
+//        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, itemList);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, new ArrayList<String>());
+        listView.setAdapter(arrayAdapter);
+        listView.setOnItemLongClickListener(longClickListener);
 
-        adapter.notifyDataSetChanged();
+        getFirebaseDB();
     }
 
-//    private AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener(){
-//       @Override
-//        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, String userName){
-//           final String[]  nowData = arrayData.get(position).split("\\s+");
-//
-//
-//           return false;
-//        }
-//    };
+    private AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener(){
 
-    // ADD, DEL 버튼 클릭 시 실행되는 메소드
-    public void OnClickAD(View view){
-        EditText ed = (EditText)findViewById(R.id.pushEdit);
-
-        switch(view.getId()){
-            case R.id.addBtn: // ADD
-                String text = ed.getText().toString(); // EditText에 있는 문자열 값 가져오기
-
-                if(!text.isEmpty()){ // EditText가 비어있지 않으면
-                    itemList.add(text);
-                    ed.setText("");
-
-                    adapter.notifyDataSetChanged(); // 리스트 목록 갱신
-                }
-                break;
-            case R.id.delBtn:
-                SparseBooleanArray sbArray = listView.getCheckedItemPositions(); // 선택된 아이템의 위치를 알려주는 배열
-                // ex) {0=true, 3=true, 4=false, 6=true}
-
-                if(sbArray.size() != 0){
-                    for(int i = listView.getCount() - 1; i >= 0; i--){ // 목록의 역순으로 순회하면서 항목 제거
-                        if(sbArray.get(i)){
-                            itemList.remove(i);
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            String[] nowData = arrayData.get(position).split(" ");
+            ID = nowData[0];
+            pastCount.add(ID);
+            AlertDialog.Builder dialog = new AlertDialog.Builder(BoxActivity.this);
+            dialog.setTitle("데이터 삭제")
+                    .setMessage("해당 데이터를 삭제하시겠습니까?")
+                    .setPositiveButton("네", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mDatabase.getReference().child("admin").child(ID).setValue(null);
+                            getFirebaseDB();
+                            Toast.makeText(BoxActivity.this, "데이터 삭제 완료", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                    listView.clearChoices();
-                    adapter.notifyDataSetChanged();
-                }
-                break;
+                    })
+                    .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(BoxActivity.this, "데이터 삭제 취소", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .create()
+                    .show();
+            return false;
         }
+    };
+
+    public void getFirebaseDB(){
+        // 실시간 업데이트
+        mReference = mDatabase.getReference("admin"); // 변경값을 확인할 child 이름
+        mReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                arrayAdapter.clear();
+                arrayData.clear();
+
+                for (DataSnapshot fireData : dataSnapshot.getChildren()) {
+                    ObjectData get = fireData.getValue(ObjectData.class);
+                    String[] info = {get.id, get.category, get.name, String.valueOf(get.count), get.dateEnd};
+                    String msg = info[0] + " " + info[1] + " " + info[2] + " " + info[3] + " " + info[4];
+                    arrayData.add(msg);
+//                    arrayAdapter.add(msg); // 데이터 저장
+
+                }
+                arrayAdapter.addAll(arrayData);
+                arrayAdapter.notifyDataSetChanged();
+//                listView.setSelection(arrayAdapter.getCount() - 1); // 활성화 시 리스트뷰가 마지막 데이터 기준
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
+
+    private void initDatabase() {
+
+        mDatabase = FirebaseDatabase.getInstance();
+
+        mReference = mDatabase.getReference("log");
+        mReference.child("log").setValue("check");
+
+        mChild = new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        mReference.addChildEventListener(mChild);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mReference.removeEventListener(mChild);
+    }
+
 }

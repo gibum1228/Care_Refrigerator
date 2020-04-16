@@ -15,7 +15,8 @@ public class ObjectData {
     public Long count = 0L;
 
     public ObjectData(){}
-    public ObjectData(String c, String n, String d, Long cnt){
+    public ObjectData(String id, String c, String n, String d, Long cnt){
+        this.id = id;
         this.category = c;
         this.name = n;
         this.dateEnd = d;
@@ -25,6 +26,7 @@ public class ObjectData {
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String, Object> objectBox = new HashMap<>();
+        objectBox.put("id", id);
         objectBox.put("category", category);
         objectBox.put("name", name);
         objectBox.put("dateEnd", dateEnd);
