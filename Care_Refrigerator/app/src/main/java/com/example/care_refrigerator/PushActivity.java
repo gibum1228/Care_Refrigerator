@@ -2,28 +2,46 @@ package com.example.care_refrigerator;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PushActivity extends AppCompatActivity {
 
-    // 생성
     Button homeBtn;
-    Button dateInputBtn;
+    Button dateEndBtn;
+    Button pushDBBtn;
+    EditText nameEdit;
     Spinner spinner;
-    GregorianCalendar today = new GregorianCalendar();
 
-    private TextView dateText;
+    private DatabaseReference mPostReference;
+    GregorianCalendar today = new GregorianCalendar(); // 현재
     private DatePickerDialog.OnDateSetListener callbackMethod;
+    String s = ""; // 날짜
+    String spinToS = ""; // 분류
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,78 +50,94 @@ public class PushActivity extends AppCompatActivity {
 
         // 초기화
         homeBtn = (Button) findViewById(R.id.homeBtn);
-        dateInputBtn = (Button)findViewById(R.id.dateInputBtn);
+        dateEndBtn = (Button)findViewById(R.id.dateEndBtn);
+        pushDBBtn = (Button)findViewById(R.id.pushDBBtn);
         spinner = (Spinner) findViewById(R.id.categoryBox);
-
-        // 액티비티 전환
-        homeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
+        nameEdit = (EditText)findViewById(R.id.nameEdit);
 
         // 스피너(콤보 박스)
-        String[] items = {"육류", "채소류", "유제품", "냉동식품", "기타"};
+        String[] items = {"", "육류", "채소류", "유제품", "냉동식품", "기타"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_text_coustom, items);
         spinner.setAdapter(adapter);
         spinner.setSelection(0);
 
-        // 유통 기한 입력 메소드
-        this.InitializeView();
-        this.InitializeListener();
-    }
-
-    private void InitializeListener() {
-        dateText = (TextView)findViewById(R.id.dateText);
     }
 
     // 날짜 정보 전달
-    private void InitializeView() {
+    private void calenderView() {
         callbackMethod = new DatePickerDialog.OnDateSetListener(){
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-                monthOfYear = monthOfYear + 1;
-                dateText.setText(year + "년 " + monthOfYear + "월 " + dayOfMonth + "일" );
+                monthOfYear++;
+
+                s = year + "년 " + monthOfYear + "월 " + dayOfMonth + "일";
+                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
             }
         };
     }
 
-    // 버튼 클릭시 이벤트 생성
-    public void OnClickHandler(View view){
-        DatePickerDialog dialog = new DatePickerDialog(this, callbackMethod, today.get(today.YEAR), today.get(today.MONTH), today.get(today.DAY_OF_MONTH));
+    // 실시간 데이터베이스에 정보 전달
+    public void pushFirebaseDB(){
+        String userEmail = "";
+        mPostReference = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        dialog.show();
+        if(user != null){
+            String userName = user.getDisplayName();
+            userEmail = user.getEmail();
+            Uri userPhotoUrl = user.getPhotoUrl();
+
+            boolean emailVerified = user.isEmailVerified();
+
+            String uid = user.getUid();
+        }
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
+        ObjectData objData = new ObjectData(spinToS, nameEdit.getText().toString(), s, 1L);
+        postValues = objData.toMap();
+        childUpdates.put("User/" + userEmail +"/objectData/", postValues);
+        mPostReference.updateChildren(childUpdates);
     }
 
-}
+    // 클릭시 발생 이벤트
+    public void OnClick(View view){
+        switch(view.getId()){
+            case R.id.pushDBBtn:
+                spinToS = (String)spinner.getSelectedItem();
 
-class objectKind{
-    // 필드
-    private String category = "NULL";
-    private String name = "NULL";
-    private String date = "NULL";
+                // 빈칸 있을 시
+                if(spinToS.compareTo("") == 0 || s.compareTo("") == 0 || nameEdit.getText().toString().compareTo("") == 0){
+                    if(spinToS.compareTo("") == 0){
+                        Toast.makeText(this, "분류를 선택해주세요.", Toast.LENGTH_SHORT).show();
+                    }else if(s.compareTo("") == 0 ){
+                        Toast.makeText(this, "유통기한을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(this, "제품명을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    pushFirebaseDB();
 
-    // 생성자
-    public objectKind(){
+                    // 초기화
+                    nameEdit.setText("");
+                    spinner.setSelection(0);
+                    s = "";
+                }
+                break;
+            case R.id.dateEndBtn:
+                // 달력 보이기
+                DatePickerDialog dialog = new DatePickerDialog(this, callbackMethod, today.get(today.YEAR), today.get(today.MONTH), today.get(today.DAY_OF_MONTH));
+                dialog.show();
 
-    }
-    public objectKind(String c, String n, String d){
-        this.category = c;
-        this.name = n;
-        this.date = d;
-    }
+                // 유통 기한 입력 받기
+                this.calenderView();
 
-    // get
-    public String getCategory() {
-        return this.category;
-    }
-    public String getName(){
-        return this.name;
-    }
-    public String getDate(){
-        return this.date;
-    }
+                break;
+            case R.id.homeBtn:
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                break;
 
+        }
+    }
 }

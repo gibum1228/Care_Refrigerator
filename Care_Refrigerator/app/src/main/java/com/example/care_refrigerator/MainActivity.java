@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.google.firebase.auth.FirebaseAuth;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -63,13 +64,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        myRef.setValue("Hello, World!");
     }
 
-    // 시간 입력받기
-    static long nowTime = System.currentTimeMillis();
-    static Date nowDate = new Date(nowTime);
+    // Write a message to the database
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("test");
 
-    static SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    static String getTime = simpleDate.format(nowDate);
+
+
 }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Care_Refrigerator</string>
+    <string name="app_name">냉장고를 부탁해</string>
     <string name="boxBtn">냉장고</string>
     <string name="boardBtn">추천 메뉴</string>
     <string name="homeBtn">홈</string>
@@ -7,8 +7,11 @@
     <string name="optionBtn">설정</string>
     <string name="objectName">상품명</string>
     <string name="pushDB">PUSH</string>
-    <string name="dateInput">유통기한 입력</string>
+    <string name="dateInput">유통기한</string>
     <string name="loginid">로그인 아이디</string>
+    <string name="sortBtn">정렬</string>
+    <string name="addBtn">추가</string>
+    <string name="delBtn">삭제</string>
     <string name="input_loginid">로그인 아이디를 입력하세요.</string>
     <string name="dateInput">유통기한</string>
     <string name="loginid">로그인 이메일</string>
