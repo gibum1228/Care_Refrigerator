@@ -14,14 +14,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PushActivity extends AppCompatActivity {
+
+    private DatabaseReference mPostReference;
 
     // 생성
     Button homeBtn;
@@ -103,6 +110,14 @@ public class PushActivity extends AppCompatActivity {
 
             startActivity(intent);
         }
+
+        mPostReference = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
+        ObjectData objData = new ObjectData(spinS, objectName.getText().toString(), s, 1L);
+        postValues = objData.toMap();
+        childUpdates.put("/ObjectData/" + "objTest", postValues);
+        mPostReference.updateChildren(childUpdates);
     }
 }
 
