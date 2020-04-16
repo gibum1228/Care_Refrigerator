@@ -32,14 +32,14 @@ public class PushActivity extends AppCompatActivity {
 
     // 생성
     Button homeBtn;
-    Button dateInputBtn;
-    EditText objectName;
+    Button dateEndBtn;
+    EditText nameEdit;
     Spinner spinner;
-    GregorianCalendar today = new GregorianCalendar();
+    GregorianCalendar today = new GregorianCalendar(); // 현재
     private DatePickerDialog.OnDateSetListener callbackMethod;
 
-    String s = "";
-    String spinS = "";
+    String s = ""; // 날짜
+    String spinS = ""; // 분류
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +48,9 @@ public class PushActivity extends AppCompatActivity {
 
         // 초기화
         homeBtn = (Button) findViewById(R.id.homeBtn);
-        dateInputBtn = (Button)findViewById(R.id.dateInputBtn);
+        dateEndBtn = (Button)findViewById(R.id.dateEndBtn);
         spinner = (Spinner) findViewById(R.id.categoryBox);
-        objectName = (EditText)findViewById(R.id.objectName);
+        nameEdit = (EditText)findViewById(R.id.nameEdit);
 
         // 액티비티 전환
         homeBtn.setOnClickListener(new View.OnClickListener() {
@@ -91,24 +91,20 @@ public class PushActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // Push버튼 눌러서 BoxActivity에 물품 정보 전송
+    // Push버튼 눌러서 DB에 데이터 저장
     public void OnClickPush(View view){
         spinS = (String)spinner.getSelectedItem();
-        ObjectKind objKind = new ObjectKind(spinS, objectName.getText().toString(), s);
 
-        if(objKind.getCategory().compareTo("") == 0 || objKind.getName().compareTo("") == 0 || objKind.getDate().compareTo("") == 0){
-            if(objKind.getCategory().compareTo("") == 0){
+        if(spinS.compareTo("") == 0 || s.compareTo("") == 0 || nameEdit.getText().toString().compareTo("") == 0){
+            if(spinS.compareTo("") == 0){
                 Toast.makeText(this, "분류를 선택해주세요.", Toast.LENGTH_SHORT).show();
-            }else if(objKind.getName().compareTo("") == 0 ){
-                Toast.makeText(this, "제품명을 입력해주세요.", Toast.LENGTH_SHORT).show();
-            }else{
+            }else if(s.compareTo("") == 0 ){
                 Toast.makeText(this, "유통기한을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "제품명을 입력해주세요.", Toast.LENGTH_SHORT).show();
             }
         }else{
-            Intent intent = new Intent(PushActivity.this, BoxActivity.class);
-            intent.putExtra("class", objKind);
 
-            startActivity(intent);
         }
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
@@ -118,39 +114,5 @@ public class PushActivity extends AppCompatActivity {
         postValues = objData.toMap();
         childUpdates.put("/ObjectData/" + "objTest", postValues);
         mPostReference.updateChildren(childUpdates);
-    }
-}
-
-class ObjectKind implements Serializable { // 물품 정보 클래스
-
-    // 필드
-    private String category = "";
-    private String name = "";
-    private String date = "";
-
-    // 생성자
-    public ObjectKind(){}
-    public ObjectKind(String c, String n, String d){
-        this.category = c;
-        this.name = n;
-        this.date = d;
-    }
-
-    // get
-    public String getCategory() {
-        return this.category;
-    }
-    public String getName(){
-        return this.name;
-    }
-    public String getDate(){
-        return this.date;
-    }
-
-    // print
-    @Override
-    public String toString(){
-        return "카테고리: " + this.category +" \n제품명: " + this.name +" \n유통기한: " + this.date;
-        // return String.format("카테고리: %s" + " \n제품명: %s" + " \n유통기한: %s", this.category, this.name, this.date);
     }
 }
