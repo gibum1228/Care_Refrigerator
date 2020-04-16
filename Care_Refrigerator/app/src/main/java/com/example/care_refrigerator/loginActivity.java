@@ -70,7 +70,7 @@ public class loginActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Log.d(TAG,"SingInwithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(),loginonActivity.class);
                         }else {
                             Log.w(TAG,"SingwithEmail:failure",task.getException());
                         }
