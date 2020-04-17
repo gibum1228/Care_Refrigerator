@@ -16,7 +16,7 @@ public class OptionActivity extends AppCompatActivity {
 
     Button homeBtn;
     Button loginBtn;
-    private FirebaseDatabase mDatabase;
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
 
 
     @Override
