@@ -6,8 +6,8 @@
     android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
     android:singleLine="true"
     android:layout_width="match_parent"
-    android:layout_height="94px"
-    android:textSize="32px"
+    android:layout_height="100px"
+    android:textSize="70px"
     android:gravity="center"
     android:ellipsize="marquee">
 

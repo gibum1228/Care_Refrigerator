@@ -12,23 +12,25 @@ public class ObjectData {
     public String name = "";
     public String category = "";
     public String dateEnd = "";
-    public Long count = 0L;
+    public String cnt = "0";
 
     public ObjectData(){}
-    public ObjectData(String c, String n, String d, Long cnt){
+    public ObjectData(String id, String c, String n, String d, String cnt){
+        this.id = id;
         this.category = c;
         this.name = n;
         this.dateEnd = d;
-        this.count = cnt;
+        this.cnt = cnt;
     }
 
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String, Object> objectBox = new HashMap<>();
+        objectBox.put("id", id);
         objectBox.put("category", category);
         objectBox.put("name", name);
         objectBox.put("dateEnd", dateEnd);
-        objectBox.put("count", count);
+        objectBox.put("count", cnt);
 
         return objectBox;
     }
