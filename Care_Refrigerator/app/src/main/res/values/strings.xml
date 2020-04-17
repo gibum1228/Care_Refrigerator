@@ -29,4 +29,6 @@
     <string name="reset">냉장고 초기화</string>
     <string name="input_content">내용을 입력하세요</string>
     <string name="Save">저장</string>
+    <string name="Memo">당신을 위한 간단한 메모</string>
+    <string name="ref">냉장고</string>
 </resources>

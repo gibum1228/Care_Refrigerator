@@ -113,7 +113,7 @@
         android:shadowColor="@color/color_dark_4a4a4a_8f9097"
         android:text="@string/welcome"
         android:textAlignment="center"
-        android:textColor="@color/color_dark_e1e1e1_000000"
+        android:textColor="@color/common_google_signin_btn_text_dark_pressed"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

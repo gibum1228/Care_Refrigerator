@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#E1AFAF"
     tools:context=".loginActivity">
 
     <ImageView
@@ -31,6 +32,7 @@
         android:layout_marginEnd="165dp"
         android:layout_marginBottom="8dp"
         android:text="@string/loginid"
+        android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toTopOf="@+id/editText_loginid"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +50,7 @@
         android:hint="@string/input_loginid"
         android:inputType="textUri|textWebEmailAddress"
         android:textAlignment="center"
+        android:textColor="@color/common_google_signin_btn_text_dark_pressed"
         app:layout_constraintBottom_toTopOf="@+id/password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +66,7 @@
         android:text="@string/login_log"
         android:textAlignment="center"
         android:textAllCaps="false"
+        android:textColor="@android:color/holo_red_light"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,6 +80,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="165dp"
         android:text="@string/password"
+        android:textColor="@color/common_google_signin_btn_text_dark_pressed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_loginid" />
@@ -91,21 +96,23 @@
         android:hint="@string/input_password"
         android:inputType="textPassword"
         android:textAlignment="center"
-        android:textColor="@android:color/background_dark"
+        android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="106dp"
+        android:layout_height="38dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/buttonshape"
+        android:backgroundTint="#C39393"
         android:text="@string/singUp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_password2" />
 
@@ -118,6 +125,7 @@
         android:layout_marginEnd="180dp"
         android:layout_marginBottom="32dp"
         android:text="@string/move_login"
+        android:textColor="@color/common_google_signin_btn_text_dark_pressed"
         android:textSize="18dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView"
@@ -134,6 +142,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/passwordok"
         android:textAlignment="center"
+        android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_password" />
@@ -149,6 +158,7 @@
         android:hint="@string/passwordok"
         android:inputType="textPassword"
         android:textAlignment="center"
+        android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
