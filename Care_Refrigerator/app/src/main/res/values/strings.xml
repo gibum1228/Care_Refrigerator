@@ -26,4 +26,9 @@
     <string name="loginBtn2">LOGOUT</string>
     <string name="welcome">어서오세요!</string>
     <string name="loginBtn1">LOGIN</string>
+    <string name="reset">냉장고 초기화</string>
+    <string name="input_content">내용을 입력하세요</string>
+    <string name="Save">저장</string>
+    <string name="Memo">당신을 위한 간단한 메모</string>
+    <string name="ref">냉장고</string>
 </resources>

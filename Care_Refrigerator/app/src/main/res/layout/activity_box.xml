@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="#E1AFAF"
     tools:context=".BoxActivity">
 
     <LinearLayout
         android:id="@+id/upLayout"
         android:layout_width="0sp"
         android:layout_height="70sp"
+        android:background="#E1AFAF"
         android:orientation="horizontal"
-        android:background="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,15 +28,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2"/>
+            android:layout_weight="1" />
+
 
         <Button
             android:id="@+id/homeBtn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
+            android:backgroundTint="#B77A5451"
             android:gravity="center"
             android:text="@string/homeBtn"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -58,18 +62,26 @@
             android:layout_marginLeft="60sp"
             android:layout_marginRight="60sp"
             android:layout_weight="5">
+            android:layout_marginLeft="70sp"
+            android:layout_marginTop="30sp"
+            android:layout_marginRight="70sp"
+            android:layout_marginBottom="30sp"
+            android:layout_weight="7"
+            android:orientation="horizontal">
 
             <Spinner
                 android:id="@+id/sortSpin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/sortBtn"/>
+                android:background="@android:drawable/editbox_background"
+                android:backgroundTint="#B77A5451"
+                android:text="@string/sortBtn" />
 
         </LinearLayout>
 
@@ -83,6 +95,7 @@
             android:layout_marginLeft="50sp"
             android:layout_marginRight="50sp"
             android:layout_weight="2"
+            android:background="#E1AFAF"
             android:fillViewport="true">
 
             <ListView
