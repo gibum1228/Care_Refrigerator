@@ -31,8 +31,8 @@ import static com.example.care_refrigerator.PushActivity.userUid;
 
 public class BoxActivity extends AppCompatActivity {
 
-    private DatabaseReference mReference;
-    private FirebaseDatabase mDatabase;
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mReference = mDatabase.getReference();
     private ChildEventListener mChild;
 
     Button homeBtn;
@@ -42,7 +42,7 @@ public class BoxActivity extends AppCompatActivity {
     String ID = "";
 
     public static ArrayAdapter<String> arrayAdapter;
-    ArrayList<String> arrayData = new ArrayList<String>();
+    public static ArrayList<String> arrayData = new ArrayList<String>(0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,15 +79,15 @@ public class BoxActivity extends AppCompatActivity {
         sortSpin.setAdapter(spinAdapter);
         sortSpin.setSelection(0);
 
-        initDatabase();
-
         // 어댑터 생성 및 설정
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, new ArrayList<String>());
         listView.setAdapter(arrayAdapter);
         listView.setOnItemLongClickListener(longClickListener);
 
         getFirebaseDB();
-
+        if(arrayData.size() > 0){
+            initDatabase();
+        }
     }
 
     private AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener(){
@@ -120,9 +120,10 @@ public class BoxActivity extends AppCompatActivity {
         }
     };
 
-    public void getFirebaseDB(){
+    public static void getFirebaseDB(){
         // 실시간 업데이트
-        mReference = mDatabase.getReference(userUid + "/"); // 변경값을 확인할 child 이름
+        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference mReference = mDatabase.getReference(userUid + "/"); // 변경값을 확인할 child 이름
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -131,8 +132,8 @@ public class BoxActivity extends AppCompatActivity {
 
                 for (DataSnapshot fireData : dataSnapshot.getChildren()) {
                     ObjectData get = fireData.getValue(ObjectData.class);
-                    String[] info = {get.id, get.category, get.name, String.valueOf(get.count), get.dateEnd};
-                    String msg = info[0] + " " + info[1] + " " + info[2] + " " + info[3] + " " + info[4];
+                    String[] info = {get.id, get.category, get.name, get.cnt, get.dateEnd};
+                    String msg = info[0] + " 분류:" + info[1] + " 제품명:" + info[2] + " " + info[3] + "개 " + info[4];
                     arrayData.add(msg);
 
                 }
@@ -149,11 +150,6 @@ public class BoxActivity extends AppCompatActivity {
     }
 
     private void initDatabase() {
-
-        mDatabase = FirebaseDatabase.getInstance();
-
-        mReference = mDatabase.getReference("log");
-        mReference.child("log").setValue("check");
 
         mChild = new ChildEventListener() {
 
