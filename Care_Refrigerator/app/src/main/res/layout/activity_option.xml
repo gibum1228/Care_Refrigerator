@@ -97,13 +97,9 @@
         android:layout_marginTop="37dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/buttonshape"
-
         android:backgroundTint="#D69A9A"
         android:text="@string/reset"
         android:textColor="@color/color_dark_000000_ffffff"
-
-        android:text="@string/reset"
-        android:textColor="@color/color_dark_e1e1e1_000000"
         android:textSize="30dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -152,7 +148,7 @@
         android:layout_marginStart="165dp"
         android:layout_marginEnd="165dp"
         android:layout_marginBottom="36dp"
-        android:text="@김기범,김은정"
+        android:text="김기범,김은정"
         android:textSize="12sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@+id/loginBtn"
