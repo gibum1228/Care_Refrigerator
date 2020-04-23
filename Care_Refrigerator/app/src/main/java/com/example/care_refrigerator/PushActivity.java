@@ -76,7 +76,6 @@ public class PushActivity extends AppCompatActivity {
                 monthOfYear++;
 
                 s = year + "-" + monthOfYear + "-" + dayOfMonth;
-                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
             }
         };
     }
@@ -111,7 +110,7 @@ public class PushActivity extends AppCompatActivity {
                         Toast.makeText(this, "유통기한을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     }else if(nameEdit.getText().toString().compareTo("") == 0){
                         Toast.makeText(this, "제품명을 입력해주세요.", Toast.LENGTH_SHORT).show();
-                    }else{
+                    }else if(cntEdit.getText().toString().compareTo("") == 0){
                         Toast.makeText(this, "수량을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     }
                 }else{
